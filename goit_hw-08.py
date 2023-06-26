@@ -22,3 +22,15 @@ def get_birthdays_per_week(users):
     for day_of_week, user_list in birthdays_per_day.items():
         user_str = ', '.join(user_list)
         print(f"{day_of_week}: {user_str}")
+
+if __name__ == "__main__":
+    users = [
+        {'name': 'Bill', 'birthday': datetime(1975, 8, 16)},
+        {'name': 'Jill', 'birthday': datetime(2003, 7, 18)},
+        {'name': 'Kim', 'birthday': datetime(1993, 6, 25)},
+        {'name': 'Jan', 'birthday': datetime(1087, 6, 29)},
+        {'name': 'Alex', 'birthday': datetime(2006, 6, 24)},
+        {'name': 'Serhii', 'birthday': datetime(2001, 7, 1)},
+    ]
+
+    get_birthdays_per_week(users)
