@@ -2,19 +2,24 @@ from datetime import datetime, timedelta
 
 def get_period():
     current_date = datetime.now().date()
-    start_of_next_week = current_date + timedelta(days=(7 - current_date.weekday()))
-    end_of_next_week = start_of_next_week + timedelta(days=6)
-    return start_of_next_week, end_of_next_week
+    start_period = current_date
+    end_period = start_period + timedelta(days=7)
+    return start_period, end_period
 
 def get_birthdays_per_week(users):
-    start_of_next_week, end_of_next_week = get_period()
+    start_period, end_period = get_period()
+    current_year = datetime.now().year
     birthdays_per_day = {}
 
     for user in users:
-        birthday = user['birthday'].date()
+        birthday = user['birthday'].date().replace(year=current_year)
 
-        if start_of_next_week.month == birthday.month and start_of_next_week.day <= birthday.day <= end_of_next_week.day:
-            day_of_week = birthday.strftime('%A')
+        if start_period <= birthday <= end_period:
+            if birthday.weekday() in [5, 6]:
+                day_of_week = 'Monday'
+            else:
+                day_of_week = birthday.strftime('%A')
+
             if day_of_week not in birthdays_per_day:
                 birthdays_per_day[day_of_week] = []
             birthdays_per_day[day_of_week].append(user['name'])
@@ -26,10 +31,10 @@ def get_birthdays_per_week(users):
 if __name__ == "__main__":
     users = [
         {'name': 'Bill', 'birthday': datetime(1975, 8, 16)},
-        {'name': 'Jill', 'birthday': datetime(2003, 7, 18)},
-        {'name': 'Kim', 'birthday': datetime(1993, 6, 25)},
+        {'name': 'Jill', 'birthday': datetime(2003, 7, 8)},
+        {'name': 'Kim', 'birthday': datetime(1993, 7, 3)},
         {'name': 'Jan', 'birthday': datetime(1087, 6, 29)},
-        {'name': 'Alex', 'birthday': datetime(2006, 6, 24)},
+        {'name': 'Alex', 'birthday': datetime(2006, 7, 4)},
         {'name': 'Serhii', 'birthday': datetime(2001, 7, 1)},
     ]
 
